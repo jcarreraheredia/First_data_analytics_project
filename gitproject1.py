@@ -10,6 +10,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import statsmodels.api as sm
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_absolute_error, r2_score
 
 # ==========================================
 # 1. PLAN FASE: Data Generation & Setup
@@ -66,13 +68,14 @@ print("--- [CONSTRUCT] Training Multiple Linear Regression Model ---")
 # Define dependent and independent variables
 y = df['Precio']
 X = df[['Pies_Cuadrados', 'Habitaciones', 'Antiguedad', 'Distancia_Centro']]
-
+X_train, X_test, Y_train, Y_test = train_test_split(X,y, test_size=0.20, random_state=42)
 # Add constant intercept for statsmodels OLS
-X_const = sm.add_constant(X)
+X_const = sm.add_constant(X_train)
 
 # Fit OLS Model
-modelo = sm.OLS(y, X_const).fit()
-
+modelo = sm.OLS(Y_train, X_const).fit()
+x_test_conts= sm.add_constant(X_test)
+pred_Model=modelo.predict(x_test_conts)
 # Display full statistical summary
 print(modelo.summary())
 
@@ -80,7 +83,9 @@ print(modelo.summary())
 # 4. EXECUTE FASE: Assumption Validation (Residuals)
 # ==========================================
 print("\n--- [EXECUTE] Validating Regression Assumptions ---")
-
+#Check R^2 and MAE
+print(mean_absolute_error(Y_test,pred_Model))
+print(r2_score(Y_test, pred_Model))
 # Check Residuals Distribution
 residuos = modelo.resid
 
