@@ -91,7 +91,27 @@ plt.xlabel('Residuos')
 plt.ylabel('Frecuencia')
 plt.tight_layout()
 
-# Display assumption check visualization
+# Create a comprehensive diagnostic layout
+fig, axes = plt.subplots(1, 2, figsize=(14, 6))
+
+# Left Plot: Q-Q Plot for Normality
+sm.qqplot(residuos, line='s', ax=axes[0])
+axes[0].set_title('Gráfico Q-Q (Validación de Normalidad)')
+
+# Right Plot: Residuals vs Fitted Values for Homoscedasticity
+sns.scatterplot(x=modelo.fittedvalues, y=residuos, ax=axes[1])
+axes[1].axhline(y=0, color='red', linestyle='--')
+axes[1].set_title('Residuos vs. Valores Predichos (Homocedasticidad)')
+axes[1].set_xlabel('Valores Predichos')
+axes[1].set_ylabel('Residuos')
+
+plt.tight_layout()
 plt.show()
 
-print("\nProcess finished. Model is fully validated.")
+print("\nProcess finished. Model is fully validated and diagnostic plots generated.")
+
+#Ejemplo de predicción
+casa_nueva=[2300, 3,10,5]
+datos_prediccion = [1] + casa_nueva
+precio_pred= modelo.predict([datos_prediccion])
+print(precio_pred)
