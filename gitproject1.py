@@ -12,7 +12,7 @@ import seaborn as sns
 import statsmodels.api as sm
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_absolute_error, r2_score
-
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 # ==========================================
 # 1. PLAN FASE: Data Generation & Setup
 # ==========================================
@@ -115,12 +115,28 @@ plt.show()
 
 print("\nProcess finished. Model is fully validated and diagnostic plots generated.")
 
-#Ejemplo de predicción
+#Prediction example
 casa_nueva=[2300, 3,10,5]
 datos_prediccion = [1] + casa_nueva
 precio_pred= modelo.predict([datos_prediccion])
 print(precio_pred)
+# ==========================================
+# Real Values vs Predictions
+# ==========================================
+plt.figure(figsize=(8, 6))
 
+# Real values as blue
+plt.scatter(range(len(Y_test1)), Y_test1, color='blue', alpha=0.6, label='Valores Reales (Datos)', edgecolors='k')
+
+# Predicted values as green
+plt.scatter(range(len(pred_lineal)), pred_lineal, color='green', alpha=0.6, label='Predicciones del Modelo', marker='x')
+
+plt.title('Comparacion de Valores Reales vs. Predicciones (Regresion Lineal)')
+plt.xlabel('Indice de la Propiedad en el Set de Prueba')
+plt.ylabel('Precio de la Vivienda ($)')
+plt.legend(loc='upper left')
+plt.tight_layout()
+plt.show()
 
 # ==========================================
 # 4. CONSTRUCT & EXECUTE: Model 2 - Logistic Regression
@@ -142,3 +158,11 @@ prediccion_log = np.where(proba > 0.5, 1, 0)
 
 print(classification_report(Y_test2, prediccion_log))
 print("\nProcess fully finished. All models successfully validated.")
+#Confusion matrix
+cm = confusion_matrix(Y_test2, prediccion_log)
+fig, ax = plt.subplots(figsize=(6, 5))
+disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=['Estandar', 'Premium'])
+disp.plot(cmap='Blues', ax=ax, values_format='d')
+plt.title('Matriz de Confusion - Clasificacion de Propiedades')
+plt.grid(False)
+plt.show()
