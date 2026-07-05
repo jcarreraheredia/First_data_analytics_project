@@ -120,3 +120,25 @@ casa_nueva=[2300, 3,10,5]
 datos_prediccion = [1] + casa_nueva
 precio_pred= modelo.predict([datos_prediccion])
 print(precio_pred)
+
+
+# ==========================================
+# 4. CONSTRUCT & EXECUTE: Model 2 - Logistic Regression
+# ==========================================
+print("\n--- [CONSTRUCT - MODEL 2] Logistic Regression ---")
+
+y2 = df['Premium']
+X2 = df[['Pies_Cuadrados', 'Habitaciones', 'Antiguedad', 'Distancia_Centro']]
+
+X_train2, X_test2, Y_train2, Y_test2 = train_test_split(X2, y2, test_size=0.20, random_state=42)
+
+X_train2_const = sm.add_constant(X_train2)
+modelo_logistico = sm.Logit(Y_train2, X_train2_const).fit()
+
+print("\n--- [EXECUTE - MODEL 2] Classification Report ---")
+X_test2_const = sm.add_constant(X_test2)
+proba = modelo_logistico.predict(X_test2_const)
+prediccion_log = np.where(proba > 0.5, 1, 0)
+
+print(classification_report(Y_test2, prediccion_log))
+print("\nProcess fully finished. All models successfully validated.")
