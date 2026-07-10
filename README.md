@@ -1,30 +1,28 @@
-# Real Estate Price Prediction and Market Segmentation (PACE Framework)
+# Data Analytics & Predictive Machine Learning Project
 
-This project applies both Multiple Linear Regression and Logistic Regression models to analyze housing prices based on property characteristics, following the PACE (Plan, Analyze, Construct, Execute) framework taught in the Google Advanced Data Analytics Professional Certificate.
+## Project Overview
+A brief, 2-3 sentence summary of the business problem or dataset you are analyzing.
 
-## Key Findings and Business Insights
-* Size Impact: Every additional square foot increases the property value by $147.19.
-* Location Penalty: For each mile further away from the city center, the price drops by $2,985.75.
-* Depreciation: Each year of a house's age decreases its value by $1,107.41.
-* Market Segmentation: Properties are classified into "Premium" vs "Standard" tiers using the market price median as the threshold.
+## Phase 1: Statistical Baselines (Regression)
+- **Objective:** Establish initial benchmarks using statistical modeling.
+- **Models Used:** Multiple Linear Regression / Logistic Regression.
+- **Key Findings:** What did the regression tell you about feature importance or p-values?
 
-## Model Performance and Statistical Validation
+## Phase 2: Upgrading to Machine Learning 🚀
+- **Objective:** Improve predictive performance by introducing non-linear machine learning algorithms.
+- **Models Evaluated:** Random Forest, XGBoost, etc.
+- **Hyperparameter Tuning:** Optimized using `GridSearchCV`.
 
-### Part 1: Price Prediction (Multiple Linear Regression)
-* R-squared ($R^2$): 0.964 — The model explains 96.4% of the variance in housing prices.
-* F-statistic: 3292 (p-value < 0.001), indicating high overall model significance.
-* Durbin-Watson: 2.002, proving independence of errors (no autocorrelation).
-* Residuals: Validated through visual analysis (Q-Q plot for normality and Scatterplot for homoscedasticity) showing errors properly distributed around zero.
+## Results & Model Comparison
+Create a clean Markdown table comparing your baseline regression model against your new ML models.
 
-### Part 2: Tier Classification (Logistic Regression)
-* Objective: Predict the probability of a house qualifying as a "Premium" property based on its characteristics.
-* Performance: As documented in image_5548a7.png, the model achieved a stable accuracy of 0.92 (92%) on unseen test data.
-* Metrics: Precision, Recall, and F1-Score all reached 0.92 for both classes (Standard and Premium), showing balanced classification performance.
-* Optimization: The optimization terminated successfully in 10 iterations with a final function value of 0.142606.
+| Model | Accuracy / $R^2$ | Precision / MAE | ROC-AUC |
+| :--- | :--- | :--- | :--- |
+| Baseline Logistic Regression | 0.76 | 0.72 | 0.78 |
+| Random Forest (Tuned) | **0.87** | **0.84** | **0.91** |
 
-## Technologies Used
-* Python 3
-* Pandas and NumPy (Data Manipulation and Feature Engineering)
-* Matplotlib and Seaborn (Exploratory Data Analysis and Diagnostic Visualizations)
-* Statsmodels (OLS Regression, Logit Framework, and Statistical Inference)
-* Scikit-Learn (Train/Test Split and Classification Evaluation Metrics)
+*Summary of results:* "Upgrading to a Random Forest Classifier reduced false positives by X% and improved overall area under the curve (AUC) by Y% compared to the baseline statistical model."
+
+## How to Run the Project
+1. Clone the repo...
+2. Install dependencies: `pip install -r requirements.txt`
