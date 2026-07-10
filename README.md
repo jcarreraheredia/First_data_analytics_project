@@ -1,28 +1,62 @@
-# Data Analytics & Predictive Machine Learning Project
+# Data Analytics & Predictive Machine Learning Portfolio (PACE Framework)
 
-## Project Overview
-A brief, 2-3 sentence summary of the business problem or dataset you are analyzing.
+This repository contains data projects following the **PACE (Plan, Analyze, Construct, Execute)** framework taught in the Google Advanced Data Analytics Professional Certificate, progressing from classical statistical models to advanced machine learning ensembles.
 
-## Phase 1: Statistical Baselines (Regression)
-- **Objective:** Establish initial benchmarks using statistical modeling.
-- **Models Used:** Multiple Linear Regression / Logistic Regression.
-- **Key Findings:** What did the regression tell you about feature importance or p-values?
+---
 
-## Phase 2: Upgrading to Machine Learning 🚀
-- **Objective:** Improve predictive performance by introducing non-linear machine learning algorithms.
-- **Models Evaluated:** Random Forest, XGBoost, etc.
-- **Hyperparameter Tuning:** Optimized using `GridSearchCV`.
+## Project 1: Real Estate Price Prediction and Market Segmentation
 
-## Results & Model Comparison
-Create a clean Markdown table comparing your baseline regression model against your new ML models.
+This project applies both Multiple Linear Regression and Logistic Regression models to analyze housing prices based on property characteristics.
 
-| Model | Accuracy / $R^2$ | Precision / MAE | ROC-AUC |
-| :--- | :--- | :--- | :--- |
-| Baseline Logistic Regression | 0.76 | 0.72 | 0.78 |
-| Random Forest (Tuned) | **0.87** | **0.84** | **0.91** |
+### Key Findings and Business Insights
+* Size Impact: Every additional square foot increases the property value by $147.19.
+* Location Penalty: For each mile further away from the city center, the price drops by $2,985.75.
+* Depreciation: Each year of a house's age decreases its value by $1,107.41.
+* Market Segmentation: Properties are classified into "Premium" vs "Standard" tiers using the market price median as the threshold.
 
-*Summary of results:* "Upgrading to a Random Forest Classifier reduced false positives by X% and improved overall area under the curve (AUC) by Y% compared to the baseline statistical model."
+### Model Performance and Statistical Validation
 
-## How to Run the Project
-1. Clone the repo...
-2. Install dependencies: `pip install -r requirements.txt`
+#### Part 1: Price Prediction (Multiple Linear Regression)
+* R-squared ($R^2$): 0.964 — The model explains 96.4% of the variance in housing prices.
+* F-statistic: 3292 (p-value < 0.001), indicating high overall model significance.
+* Durbin-Watson: 2.002, proving independence of errors (no autocorrelation).
+* Residuals: Validated through visual analysis (Q-Q plot for normality and Scatterplot for homoscedasticity) showing errors properly distributed around zero.
+
+#### Part 2: Tier Classification (Logistic Regression)
+* Objective: Predict the probability of a house qualifying as a "Premium" property based on its characteristics.
+* Performance: As documented in image_5548a7.png, the model achieved a stable accuracy of 0.92 (92%) on unseen test data.
+* Metrics: Precision, Recall, and F1-Score all reached 0.92 for both classes (Standard and Premium), showing balanced classification performance.
+* Optimization: The optimization terminated successfully in 10 iterations with a final function value of 0.142606.
+
+---
+
+## Project 2: Peer-to-Peer Loan Default Risk (Machine Learning Upgrade)
+
+This project marks the transition from linear statistical modeling to advanced ensemble machine learning algorithms, evaluating credit risk and predicting borrower defaults.
+
+### Key Findings and Data Engineering (EDA)
+* **Data Cleaning & Imputation:** Detected and resolved missing entries in `Credit_Score` via median imputation. Identified and successfully treated a major data-entry outlier (`99.0` years) in `Employment_Duration` using real-world US labor statistics (3.9 years).
+* **Multicollinearity:** Heatmap visualization revealed a strong negative correlation between a borrower's `Income` and their `Debt_To_Income_Ratio`.
+
+### Model Performance and Comparison
+We evaluated a traditional baseline model against Bagging (Random Forest) and Boosting (Gradient Boosting) frameworks on unseen test data:
+
+| Model | Accuracy | Macro Avg Precision | Macro Avg Recall | Macro Avg F1-Score |
+| :--- | :---: | :---: | :---: | :---: |
+| Baseline Logistic Regression | **0.97** | 0.96 | **0.97** | **0.97** |
+| Random Forest (Bagging) | **0.97** | **0.97** | 0.96 | 0.96 |
+| Gradient Boosting (Boosting) | 0.93 | 0.95 | 0.92 | 0.93 |
+
+### Core Project Insights
+* **The Overfitting Discovery:** The sequential nature of Gradient Boosting caused it to overfit the training data and drop to 93% accuracy on the test set. Because boosting aggressively minimizes errors tree-by-tree, it easily memorized noise within a smaller sample size (100 rows).
+* **Bagging Regularization:** The Random Forest successfully matched our high baseline performance at 97% because bagging averages trees trained on random subsets, keeping the model stable and generalized.
+* **Feature Importance:** Utilized the Random Forest's internal feature weights to isolate and rank which credit and demographic variables carry the most mathematical influence in predicting default boundaries.
+
+---
+
+## Technologies Used
+* **Python 3**
+* **Data Manipulation & Preprocessing:** Pandas, NumPy
+* **Exploratory Data Analysis & Visualization:** Matplotlib, Seaborn
+* **Statistical Inference:** Statsmodels (OLS Regression, Logit Framework)
+* **Machine Learning & Ensembles:** Scikit-Learn (`LogisticRegression`, `RandomForestClassifier`, `GradientBoostingClassifier`, `train_test_split`, `metrics`)
